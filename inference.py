@@ -23,3 +23,13 @@ def rotary_emb(dim, max_seq_len):
     t = torch.arange(max_seq_len, dtype=torch.float32)
     theta = torch.einsum("i,j->ij", t, ang)
     return theta.cos(), theta.sin()
+
+def apply_rotary(x, cos, sin):
+    """Apply RoPE rotation to tensor shaped (B,T,H,D)."""
+    x1, x2 = x.chunk(2, dim=-1)
+    T = x.size(1)
+    cos, sin = cos[:T], sin[:T]
+    cos, sin = cos[None, :, None, :], sin[None, :, None, :]
+    y1 = x1 * cos + x2 * sin
+    y2 = x1 * (-sin) + x2 * cos
+    return torch.cat((y1, y2), dim=-1)
