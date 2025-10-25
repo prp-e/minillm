@@ -72,3 +72,5 @@ __NOTE__: All of the flags except "prompt" got their default value. You may chan
 
 - [x] `requirements.txt` file.
 - [x] Add a license to this repository.
+
+## Support The Project
