@@ -63,3 +63,11 @@ def transformer_block(x, weights, cos, sin, cfg):
     ff_norm = F.layer_norm(x, [cfg["d_model"]])
     ff_out = swiglu_ffn(ff_norm, **weights["ffn"], dropout=0.0)
     return x + ff_out
+
+def forward_model(input_ids, tok_emb, blocks, lm_head, cos, sin, cfg):
+    """Forward pass from token ids to logits using functional weights."""
+    x = F.embedding(input_ids, tok_emb) * math.sqrt(cfg["d_model"])
+    for b in blocks:
+        x = transformer_block(x, b, cos, sin, cfg)
+    x = F.layer_norm(x, [cfg["d_model"]])
+    return F.linear(x, lm_head)
