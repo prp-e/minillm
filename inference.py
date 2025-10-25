@@ -33,3 +33,19 @@ def apply_rotary(x, cos, sin):
     y1 = x1 * cos + x2 * sin
     y2 = x1 * (-sin) + x2 * cos
     return torch.cat((y1, y2), dim=-1)
+
+def qwen_attention(x, attn, cos, sin, dropout=0.0):
+    """Qwen-style attention with QK-norm, RoPE, GQA, Flash-attn."""
+    b,t,d = x.shape
+    n_heads, n_kv, d_k, d_model = attn["n_heads"], attn["n_kv"], attn["d_k"], attn["d_model"]
+    q = F.linear(x, attn["wq"])  # [b,t,n_heads*d_k]
+    k = F.linear(x, attn["wk"])  # [b,t,n_kv*d_k]
+    v = F.linear(x, attn["wv"])  # [b,t,n_kv*d_k]
+    q = q.view(b,t,n_heads,d_k); k = k.view(b,t,n_kv,d_k); v = v.view(b,t,n_kv,d_k)
+    q = F.normalize(q, dim=-1);  k = F.normalize(k, dim=-1)
+    q = apply_rotary(q, cos, sin); k = apply_rotary(k, cos, sin)
+    Q, K, V = q.transpose(1,2), k.transpose(1,2), v.transpose(1,2)   # [b,h,t,d_k], [b,kv,t,d_k], ...
+    K = repeat_kv(K, attn["n_groups"]); V = repeat_kv(V, attn["n_groups"])
+    out = F.scaled_dot_product_attention(Q, K, V, is_causal=True, dropout_p=dropout)
+    out = out.transpose(1,2).contiguous().view(b,t,d_model)
+    return F.linear(out, attn["wo"])
