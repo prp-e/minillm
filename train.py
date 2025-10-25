@@ -149,5 +149,12 @@ def init_weights(cfg):
         })
     return weights
 
+def forward_model(x, tok_emb, blocks, lm_head, cos, sin, cfg):
+    """Forward pass of minimal LLM"""
+    x = F.embedding(x, tok_emb)*math.sqrt(cfg["d_model"])
+    for b in blocks: x = transformer_block(x,b,cos,sin,cfg)
+    x = F.layer_norm(x,[cfg["d_model"]])
+    return F.linear(x, lm_head)
+
 if __name__ == "__main__":
     print("training your model here.")
