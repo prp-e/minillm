@@ -217,7 +217,7 @@ def train(cfg):
     pbar = tqdm(total=cfg["steps"], desc="training")
     while step < cfg["steps"]:
         for x, y in train_dl:
-            if step >= cfg["steps"]: break
+            if step > cfg["steps"]: break
             x, y = x.to(device), y.to(device)
 
             logits = forward_model(x, tok_emb, blocks, lm_head, cos, sin, cfg)
