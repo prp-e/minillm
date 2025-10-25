@@ -16,6 +16,32 @@
 
 ### Run training scripts
 
+First, create a python _virtual environment_ like this:
+
+```
+python3 -m venv .venv
+```
+
+Then activate your environment:
+
+```
+source .venv/bin/activate
+``` 
+
+After the activation, just install the required libraries by running the following command:
+
+```
+pip install -r requirements.txt
+```
+
+After libraries installed, you may change `model_params.json` file hyperparameters. You can use [params_calculator.py](params_calculator.py) script to find out how big the resulting model will get. Then you only need to run training script:
+
+```
+python3 train.py
+```
+
+After training done, you will find out a few `.pt` files in the path, it is where you have your _model files_ which are ready for inference.
+
 ### Run inference scripts
 
 ## Parameter calculator guide 
