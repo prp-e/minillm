@@ -2,6 +2,13 @@
 
 ## Libraries needed
 
+* `torch`
+* `torchvision`
+* `torchaudio`
+* `transformers`
+* `datasets`
+* `tqdm`
+
 ## Parameter calculator guide 
 
 * `d_model` : Embedding size, or in a better word, the dimensions of each token.
