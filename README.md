@@ -1,34 +1,6 @@
 # MiniLLM : An implementation of Qwen3-like small language model
 
-## Libraries needed
-
-* `torch`
-* `torchvision`
-* `torchaudio`
-* `transformers`
-* `datasets`
-* `tqdm`
-
-## Setting up the environment (for non-colab use)
-
-First, you have to create a virtual environment:
-
-```
-python3 -m venv .v 
-```
-
-Then activate it:
-
-```
-source .venv/bin/activate
-```
-
-Then install initial libraries: 
-
-```
-pip install torch torchaudio torchvision transformers datasets tqdm
-```
-
+## How to run
 
 ## Parameter calculator guide 
 
