@@ -41,5 +41,16 @@ def zeropower_via_newtonschulz5(G, steps=5):
     if G.size(-2) > G.size(-1): X = X.mT
     return X
 
+def muon_step(params, grads, states, lr=0.02, momentum=0.95, nesterov=True, ns_steps=5):
+    """One Muon optimizer step"""
+    with torch.no_grad():
+        for p,g in zip(params, grads):
+            if g is None: continue
+            buf = states.setdefault(p, torch.zeros_like(g))
+            buf.lerp_(g, 1 - momentum)
+            g = g.lerp(buf, momentum) if nesterov else buf
+            g = zeropower_via_newtonschulz5(g, steps=ns_steps)
+            p.add_(g, alpha=-lr * math.sqrt(max(1, p.size(-2)/p.size(-1))))
+
 if __name__ == "__main__":
     print("training your model here.")
