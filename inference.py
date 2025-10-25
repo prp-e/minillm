@@ -54,3 +54,12 @@ def swiglu_ffn(x, w_up, w_gate, w_down, dropout=0.0):
     """Feed-forward with SwiGLU activation."""
     a = F.silu(F.linear(x, w_gate)) * F.linear(x, w_up)
     return F.linear(F.dropout(a, dropout, training=False), w_down)
+
+def transformer_block(x, weights, cos, sin, cfg):
+    """One transformer block: LN -> Attn -> residual, LN -> FFN -> residual."""
+    x_norm = F.layer_norm(x, [cfg["d_model"]])
+    attn_out = qwen_attention(x_norm, weights["attn"], cos, sin, dropout=0.0)
+    x = x + attn_out
+    ff_norm = F.layer_norm(x, [cfg["d_model"]])
+    ff_out = swiglu_ffn(ff_norm, **weights["ffn"], dropout=0.0)
+    return x + ff_out
