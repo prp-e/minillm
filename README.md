@@ -1,5 +1,9 @@
 # MiniLLM : An implementation of Qwen3-like small language model
 
+## TODO List 
+
+- [ ] `requirements.txt` file.
+
 ## Libraries needed
 
 * `torch`
