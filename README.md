@@ -72,6 +72,7 @@ __NOTE__: All of the flags except "prompt" got their default value. You may chan
 
 - [x] `requirements.txt` file.
 - [x] Add a license to this repository.
+- [ ] Upload the model to huggingface.
 - [ ] Provide fine tuning script for _instruction following_
 - [ ] Making models _transformer compatible_ in order to be used in huggingface transformers pipelines.
 
