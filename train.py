@@ -156,5 +156,25 @@ def forward_model(x, tok_emb, blocks, lm_head, cos, sin, cfg):
     x = F.layer_norm(x,[cfg["d_model"]])
     return F.linear(x, lm_head)
 
+def evaluate(model_state, data_loader, cfg, device):
+    """Evaluate model"""
+    tok_emb, blocks, lm_head, cos, sin = model_state
+    tok_emb,lm_head = tok_emb.to(device), lm_head.to(device)
+    total_loss,total_correct,total_tokens = 0,0,0
+    with torch.no_grad():
+        for i,(x,y) in enumerate(data_loader):
+            if i>=cfg["eval_steps"]: break
+            x,y = x.to(device),y.to(device)
+            logits = forward_model(x,tok_emb,blocks,lm_head,cos,sin,cfg)
+            loss = F.cross_entropy(logits.view(-1,cfg["vocab"]), y.view(-1))
+            total_loss += loss.item()*y.numel()
+            preds = logits.argmax(-1)
+            total_correct += (preds==y).sum().item()
+            total_tokens += y.numel()
+    avg_loss = total_loss/total_tokens
+    acc = total_correct/total_tokens
+    ppl = math.exp(min(avg_loss,20))
+    return avg_loss, acc, ppl
+
 if __name__ == "__main__":
     print("training your model here.")
