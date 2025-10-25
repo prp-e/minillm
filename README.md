@@ -42,6 +42,8 @@ python3 train.py
 
 After training done, you will find out a few `.pt` files in the path, it is where you have your _model files_ which are ready for inference.
 
+__NOTE__: The current model is made to support English language and things may change in the future to add multilignuality to the model. It means it's possible for changes in tokenizer and other parts borrowed from other models as well. 
+
 ### Run inference scripts
 
 In order to run the inference on the model you have created, you may need to use `inference.py` and this script comes with a few flags and options. 
@@ -55,6 +57,8 @@ In order to run the inference on the model you have created, you may need to use
 - `--top_k` : This also checks for the nearest neighbors of your input. 
 - `--seed` : Decides for the randomness of the model. 
 - `--max_seq_length` : It decides how many tokens can be taken as an input.
+
+__NOTE__: All of the flags except "prompt" got their default value. You may change them in order to get the best results. 
 
 ## Parameter calculator guide 
 
