@@ -6,6 +6,8 @@ def load_model_cfg(json_file):
     
     return cfg
 
+cfg = load_model_cfg("model_params.json")
+
 d_model = 384
 n_heads = 8
 n_layers = 6
