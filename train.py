@@ -20,5 +20,12 @@ def set_seed(seed=42):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
+def repeat_kv(hidden_states, n_rep):
+    """Repeat key/value heads for GQA"""
+    b, n_kv, s, d = hidden_states.shape
+    if n_rep == 1: return hidden_states
+    hidden_states = hidden_states[:, :, None, :, :].expand(b, n_kv, n_rep, s, d)
+    return hidden_states.reshape(b, n_kv * n_rep, s, d)
+
 if __name__ == "__main__":
     print("training your model here.")
