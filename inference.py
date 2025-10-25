@@ -161,3 +161,6 @@ def main():
         eos_token_id=tok.eos_token_id
     )
     print(text)
+
+if __name__ == "__main__":
+    main()
