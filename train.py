@@ -119,5 +119,14 @@ def swiglu_ffn(x, w_up, w_gate, w_down, dropout=0.1):
     a = F.silu(F.linear(x,w_gate)) * F.linear(x,w_up)
     return F.linear(F.dropout(a,dropout,training=True),w_down)
 
+def transformer_block(x, weights, cos, sin, cfg):
+    """One transformer block: norm -> attention -> norm -> ffn"""
+    x_norm = F.layer_norm(x,[cfg["d_model"]])
+    attn_out = qwen_attention(x_norm, weights["attn"], cos, sin, cfg["dropout"])
+    x = x + F.dropout(attn_out,cfg["dropout"],training=True)
+    ff_norm = F.layer_norm(x,[cfg["d_model"]])
+    ff_out = swiglu_ffn(ff_norm, **weights["ffn"], dropout=cfg["dropout"])
+    return x + F.dropout(ff_out,cfg["dropout"],training=True)
+
 if __name__ == "__main__":
     print("training your model here.")
