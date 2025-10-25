@@ -176,5 +176,68 @@ def evaluate(model_state, data_loader, cfg, device):
     ppl = math.exp(min(avg_loss,20))
     return avg_loss, acc, ppl
 
+def train(cfg):
+    """Main training loop"""
+    set_seed(cfg["seed"])
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    data = load_and_cache_data(cfg["num_docs"], cfg["max_tokens"])
+    tok = data["tokenizer"]; tokens = data["tokens"]; cfg["vocab"] = tok.vocab_size
+
+    ds = TextTokenDataset(tokens, cfg["seq_len"])
+    val_size = len(ds)//10
+    train_ds, val_ds = torch.utils.data.random_split(ds, [len(ds)-val_size, val_size])
+    train_dl = DataLoader(train_ds, batch_size=cfg["batch"], shuffle=True)
+    val_dl = DataLoader(val_ds, batch_size=cfg["batch"], shuffle=False)
+
+    tok_emb = torch.randn(cfg["vocab"], cfg["d_model"]) * 0.02
+    lm_head = tok_emb  
+    blocks = init_weights(cfg)
+    cos, sin = rotary_emb(cfg["d_model"]//cfg["n_heads"], cfg["seq_len"])
+
+    tok_emb = tok_emb.to(device)
+    lm_head = tok_emb
+    cos, sin = cos.to(device), sin.to(device)
+    for b in blocks:
+        for k in ("wq","wk","wv","wo"):
+            b["attn"][k] = b["attn"][k].to(device).requires_grad_() 
+        for k in ("w_up","w_gate","w_down"):
+            b["ffn"][k] = b["ffn"][k].to(device).requires_grad_()   
+
+    muon_params = []
+    for b in blocks:
+        for name, w in b["attn"].items():
+            if torch.is_tensor(w) and w.ndim == 2:
+                muon_params.append(w)
+        for w in b["ffn"].values():
+            muon_params.append(w)
+    muon_states = {}
+
+    step = 0; best = float("inf")
+    pbar = tqdm(total=cfg["steps"], desc="training")
+    while step < cfg["steps"]:
+        for x, y in train_dl:
+            if step >= cfg["steps"]: break
+            x, y = x.to(device), y.to(device)
+
+            logits = forward_model(x, tok_emb, blocks, lm_head, cos, sin, cfg)
+            loss = F.cross_entropy(logits.view(-1, cfg["vocab"]), y.view(-1))
+
+            grads = torch.autograd.grad(loss, muon_params, retain_graph=False) 
+            muon_step(muon_params, grads, muon_states, lr=cfg["lr"])
+
+            if step % cfg["eval_every"] == 0 and step > 0:
+                val_loss, acc, ppl = evaluate((tok_emb, blocks, lm_head, cos, sin), val_dl, cfg, device)
+                print(f"\nstep {step}: val_loss={val_loss:.4f} acc={acc:.4f} ppl={ppl:.2f}")
+                if val_loss < best:
+                    best = val_loss
+                    torch.save({"tok_emb": tok_emb, "blocks": blocks, "lm_head": lm_head}, "best_model.pt")
+
+            step += 1
+            pbar.update(1)
+    pbar.close()
+    print("training done!")
+
+
 if __name__ == "__main__":
     print("training your model here.")
