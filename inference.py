@@ -49,3 +49,8 @@ def qwen_attention(x, attn, cos, sin, dropout=0.0):
     out = F.scaled_dot_product_attention(Q, K, V, is_causal=True, dropout_p=dropout)
     out = out.transpose(1,2).contiguous().view(b,t,d_model)
     return F.linear(out, attn["wo"])
+
+def swiglu_ffn(x, w_up, w_gate, w_down, dropout=0.0):
+    """Feed-forward with SwiGLU activation."""
+    a = F.silu(F.linear(x, w_gate)) * F.linear(x, w_up)
+    return F.linear(F.dropout(a, dropout, training=False), w_down)
