@@ -23,5 +23,6 @@ n_layers = cfg["n_layers"]
 d_ff = cfg["d_ff"]
 vocab = 5000
 
+total_params = calculate_params(d_model, n_heads, n_layers, d_ff, vocab)
 
 print(f"≈ {total_params/1e6:.1f}M parameters")
