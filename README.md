@@ -2,7 +2,7 @@
 
 ## TODO List 
 
-- [ ] `requirements.txt` file.
+- [x] `requirements.txt` file.
 
 ## Libraries needed
 
