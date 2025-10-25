@@ -101,5 +101,18 @@ def apply_rotary(x, cos, sin):
     y2 = x1*(-sin) + x2*cos
     return torch.cat((y1,y2),dim=-1)
 
+def qwen_attention(x, cfg, cos, sin, dropout=0.1):
+    """Qwen-style attention layer"""
+    b,t,_ = x.shape
+    q = F.linear(x, cfg["wq"]); k = F.linear(x, cfg["wk"]); v = F.linear(x, cfg["wv"])
+    q = q.view(b,t,cfg["n_heads"],cfg["d_k"]); k = k.view(b,t,cfg["n_kv"],cfg["d_k"]); v = v.view(b,t,cfg["n_kv"],cfg["d_k"])
+    q = F.normalize(q,dim=-1); k = F.normalize(k,dim=-1)
+    q = apply_rotary(q,cos,sin); k = apply_rotary(k,cos,sin)
+    Q,K,V = q.transpose(1,2),k.transpose(1,2),v.transpose(1,2)
+    K = repeat_kv(K,cfg["n_groups"]); V = repeat_kv(V,cfg["n_groups"])
+    out = F.scaled_dot_product_attention(Q,K,V,is_causal=True,dropout_p=dropout)
+    out = out.transpose(1,2).contiguous().view(b,t,cfg["d_model"])
+    return F.linear(out, cfg["wo"])
+
 if __name__ == "__main__":
     print("training your model here.")
