@@ -1,0 +1,17 @@
+{
+        "d_model":512, 
+        "n_heads":8, 
+        "n_kv":4, 
+        "n_layers":24, 
+        "d_ff":1536,
+        "batch":32, 
+        "seq_len":1024, 
+        "dropout":0.1,
+        "num_docs":5000, 
+        "max_tokens":1000000,
+        "lr":0.05, 
+        "steps":5000, 
+        "eval_steps":500, 
+        "eval_every":1000,
+        "seed": 1337
+}
