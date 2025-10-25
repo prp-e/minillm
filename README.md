@@ -4,7 +4,17 @@
 
 ### Prerequisites (For training)
 
+- A good high-end NVIDIA GPU with CUDA support (Tested on Google Colab's T4 as bare minimum and tested on B200s for faster training)
+- Linux operating system
+- Python 
+
 ### Prerequisites (For inference)
+
+- A user-level NVIDIA GPU with CUDA support (like a 2050)
+- Python 
+- Linux is recommended. If you're a Windows user, you may run the codes on WSL
+
+### Run training scripts
 
 ## Parameter calculator guide 
 
