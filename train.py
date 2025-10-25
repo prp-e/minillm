@@ -128,5 +128,26 @@ def transformer_block(x, weights, cos, sin, cfg):
     ff_out = swiglu_ffn(ff_norm, **weights["ffn"], dropout=cfg["dropout"])
     return x + F.dropout(ff_out,cfg["dropout"],training=True)
 
+def init_weights(cfg):
+    """Initialize weight dict"""
+    d_model,d_ff,n_layers,n_heads,n_kv = cfg["d_model"],cfg["d_ff"],cfg["n_layers"],cfg["n_heads"],cfg["n_kv"]
+    d_k = d_model//n_heads
+    weights=[]
+    for _ in range(n_layers):
+        wq = torch.randn(n_heads*d_k,d_model)*0.02
+        wk = torch.randn(n_kv*d_k,d_model)*0.02
+        wv = torch.randn(n_kv*d_k,d_model)*0.02
+        wo = torch.randn(d_model,d_model)*0.02
+        w_up = torch.randn(d_ff,d_model)*0.02
+        w_gate = torch.randn(d_ff,d_model)*0.02
+        w_down = torch.randn(d_model,d_ff)*0.02
+        weights.append({
+            "attn":{"wq":wq,"wk":wk,"wv":wv,"wo":wo,
+                    "n_heads":n_heads,"n_kv":n_kv,
+                    "n_groups":n_heads//n_kv,"d_k":d_k,"d_model":d_model,"dropout":cfg["dropout"]},
+            "ffn":{"w_up":w_up,"w_gate":w_gate,"w_down":w_down}
+        })
+    return weights
+
 if __name__ == "__main__":
     print("training your model here.")
