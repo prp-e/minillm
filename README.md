@@ -6,3 +6,4 @@
 * `n_heads` : number of attention heads per layer.
 * `n_layers` : transformers layers needed for the model. 
 * `d_ff`: Dimensions of the _feed forward layer_.
+* `vocab` : Vocabulary size (which is determined by the tokenization process.)
