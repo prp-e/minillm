@@ -1,7 +1,10 @@
 import json 
 
 def load_model_cfg(json_file):
-    pass
+    with open(json_file) as f:
+        cfg = json.load(f)
+    
+    return cfg
 
 d_model = 384
 n_heads = 8
