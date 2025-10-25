@@ -74,3 +74,12 @@ __NOTE__: All of the flags except "prompt" got their default value. You may chan
 - [x] Add a license to this repository.
 
 ## Support The Project
+
+You can support this project by donations. Donations are currently accepted in form of crypto and these are wallets:
+
+- Solana: 
+- Ethereum: 
+- Polygon: 
+- Base: 
+- Bitcoin (Taproot):
+- Bitcoin (Native Segwit): 
