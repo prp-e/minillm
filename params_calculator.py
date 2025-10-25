@@ -6,6 +6,9 @@ def load_model_cfg(json_file):
     
     return cfg
 
+def calculate_params(d_model, n_heads, n_layers, d_ff, vocab=5000):
+    pass
+
 cfg = load_model_cfg("model_params.json")
 
 d_model = cfg["d_model"]
