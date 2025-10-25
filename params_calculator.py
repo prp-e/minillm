@@ -8,10 +8,10 @@ def load_model_cfg(json_file):
 
 cfg = load_model_cfg("model_params.json")
 
-d_model = 384
-n_heads = 8
-n_layers = 6
-d_ff = 1536
+d_model = cfg["d_model"]
+n_heads = cfg["n_heads"]
+n_layers = cfg["n_layers"]
+d_ff = cfg["d_ff"]
 vocab = 5000
 
 d_k = d_model // n_heads
