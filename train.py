@@ -7,6 +7,16 @@ from tqdm import tqdm
 import torch, torch.nn.functional as F, math, random, numpy as np, os, time, pickle
 import json 
 
+class TextTokenDataset(Dataset):
+    """Simple next-token prediction dataset"""
+    def __init__(self, tokens, seq_len=512):
+        self.tokens, self.seq_len = tokens, seq_len
+    def __len__(self): return max(0, len(self.tokens)-self.seq_len)
+    def __getitem__(self, idx):
+        x = torch.tensor(self.tokens[idx:idx+self.seq_len], dtype=torch.long)
+        y = torch.tensor(self.tokens[idx+1:idx+self.seq_len+1], dtype=torch.long)
+        return x,y
+
 def load_model_cfg(json_file):
     """Reading configurations from a json file"""
     with open(json_file) as f:
