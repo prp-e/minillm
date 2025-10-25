@@ -1,1 +1,5 @@
 # MiniLLM : An implementation of Qwen3-like small language model
+
+## Parameter calculator guide 
+
+* `d_model` : embedding size, or in a better word, the dimensions of each token.
