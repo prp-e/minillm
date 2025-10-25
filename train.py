@@ -114,5 +114,10 @@ def qwen_attention(x, cfg, cos, sin, dropout=0.1):
     out = out.transpose(1,2).contiguous().view(b,t,cfg["d_model"])
     return F.linear(out, cfg["wo"])
 
+def swiglu_ffn(x, w_up, w_gate, w_down, dropout=0.1):
+    """Feed-forward block with SwiGLU activation"""
+    a = F.silu(F.linear(x,w_gate)) * F.linear(x,w_up)
+    return F.linear(F.dropout(a,dropout,training=True),w_down)
+
 if __name__ == "__main__":
     print("training your model here.")
