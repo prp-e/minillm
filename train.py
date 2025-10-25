@@ -240,4 +240,5 @@ def train(cfg):
 
 
 if __name__ == "__main__":
-    print("training your model here.")
+    cfg = load_model_cfg("model_params.json")
+    train(cfg)
