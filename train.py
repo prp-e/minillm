@@ -240,5 +240,5 @@ def train(cfg):
 
 
 if __name__ == "__main__":
-    cfg = load_model_cfg("model_params.json")
+    cfg = load_model_cfg("model_params_bigger.json")
     train(cfg)
