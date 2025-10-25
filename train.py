@@ -8,6 +8,7 @@ import torch, torch.nn.functional as F, math, random, numpy as np, os, time, pic
 import json 
 
 def load_model_cfg(json_file):
+    """Reading configurations from a json file"""
     with open(json_file) as f:
         cfg = json.load(f)
     return cfg
