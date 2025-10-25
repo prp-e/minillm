@@ -83,5 +83,13 @@ def load_and_cache_data(num_documents, max_tokens, cache_dir="data_cache"):
     with open(cache_file,"wb") as f: pickle.dump(cached,f)
     return cached
 
+def rotary_emb(dim, max_seq_len):
+    """Precompute RoPE cos/sin tables"""
+    ang = (1/10000)**torch.linspace(0,1,steps=dim//4)
+    ang = torch.cat([ang, torch.zeros_like(ang)])
+    t = torch.arange(max_seq_len)
+    theta = torch.einsum("i,j->ij",t,ang)
+    return theta.cos(), theta.sin()
+
 if __name__ == "__main__":
     print("training your model here.")
