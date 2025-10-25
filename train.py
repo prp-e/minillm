@@ -52,5 +52,26 @@ def muon_step(params, grads, states, lr=0.02, momentum=0.95, nesterov=True, ns_s
             g = zeropower_via_newtonschulz5(g, steps=ns_steps)
             p.add_(g, alpha=-lr * math.sqrt(max(1, p.size(-2)/p.size(-1))))
 
+def load_and_cache_data(num_documents, max_tokens, cache_dir="data_cache"):
+    """Load & tokenize corpus, cache results"""
+    os.makedirs(cache_dir, exist_ok=True)
+    cache_file = f"{cache_dir}/tokenized_{num_documents}_{max_tokens}.pkl"
+    if os.path.exists(cache_file):
+        with open(cache_file,"rb") as f: return pickle.load(f)
+    tok = AutoTokenizer.from_pretrained("HuggingFaceTB/SmolLM-135M")
+    if tok.pad_token is None: tok.pad_token = tok.eos_token
+    ds = load_dataset("HuggingFaceTB/smollm-corpus","cosmopedia-v2",split="train",streaming=True)
+    texts = []
+    for i,item in enumerate(ds):
+        if i>=num_documents: break
+        texts.append(item["text"][:3000])
+    all_tokens = []
+    for t in tqdm(texts,desc="Tokenizing"):
+        all_tokens.extend(tok.encode(t,add_special_tokens=False))
+    tokens = all_tokens[:max_tokens]
+    cached = {"texts":texts,"tokenizer":tok,"tokens":tokens}
+    with open(cache_file,"wb") as f: pickle.dump(cached,f)
+    return cached
+
 if __name__ == "__main__":
     print("training your model here.")
