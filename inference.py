@@ -137,7 +137,6 @@ def generate_text(state, cfg, tokenizer, prompt, max_new_tokens=100, temperature
 
 def main():
     """Example CLI entrypoint for quick inference."""
-    import argparse
     p = argparse.ArgumentParser()
     p.add_argument("--model_path", type=str, default="best_model.pt")
     p.add_argument("--tokenizer", type=str, default="HuggingFaceTB/SmolLM-135M")
