@@ -232,6 +232,8 @@ def train(cfg):
                 if val_loss < best:
                     best = val_loss
                     torch.save({"tok_emb": tok_emb, "blocks": blocks, "lm_head": lm_head}, f"model-{step}-steps.pt")
+                if step == cfg["steps"]:
+                    torch.save({"tok_emb": tok_emb, "blocks": blocks, "lm_head": lm_head}, f"model-final.pt")
 
             step += 1
             pbar.update(1)
