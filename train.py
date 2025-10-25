@@ -27,5 +27,19 @@ def repeat_kv(hidden_states, n_rep):
     hidden_states = hidden_states[:, :, None, :, :].expand(b, n_kv, n_rep, s, d)
     return hidden_states.reshape(b, n_kv * n_rep, s, d)
 
+def zeropower_via_newtonschulz5(G, steps=5):
+    """Approximate orthogonalization via Newton–Schulz iteration"""
+    assert G.ndim >= 2
+    a,b,c = 3.4445,-4.7750,2.0315
+    X = G.bfloat16()
+    if G.size(-2) > G.size(-1): X = X.mT
+    X = X / (X.norm(dim=(-2,-1),keepdim=True) + 1e-7)
+    for _ in range(steps):
+        A = X @ X.mT
+        B = b*A + c*A@A
+        X = a*X + B@X
+    if G.size(-2) > G.size(-1): X = X.mT
+    return X
+
 if __name__ == "__main__":
     print("training your model here.")
