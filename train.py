@@ -91,5 +91,15 @@ def rotary_emb(dim, max_seq_len):
     theta = torch.einsum("i,j->ij",t,ang)
     return theta.cos(), theta.sin()
 
+def apply_rotary(x, cos, sin):
+    """Apply RoPE rotation to tensor (B,T,H,D)"""
+    x1,x2 = x.chunk(2,dim=-1)
+    seq_len = x.size(1)
+    cos,sin = cos[:seq_len], sin[:seq_len]
+    cos,sin = cos[None,:,None,:], sin[None,:,None,:]
+    y1 = x1*cos + x2*sin
+    y2 = x1*(-sin) + x2*cos
+    return torch.cat((y1,y2),dim=-1)
+
 if __name__ == "__main__":
     print("training your model here.")
