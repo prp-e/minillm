@@ -3,6 +3,7 @@
 ## TODO List 
 
 - [x] `requirements.txt` file.
+- [ ] Add a license to this repository.
 
 ## Libraries needed
 
