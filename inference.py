@@ -71,3 +71,32 @@ def forward_model(input_ids, tok_emb, blocks, lm_head, cos, sin, cfg):
         x = transformer_block(x, b, cos, sin, cfg)
     x = F.layer_norm(x, [cfg["d_model"]])
     return F.linear(x, lm_head)
+
+def load_trained_state(model_path, device, max_seq_len=512):
+    """Load weights saved by train.py and build a minimal cfg from shapes."""
+    ckpt = torch.load(model_path, map_location="cpu")
+    tok_emb = ckpt["tok_emb"].to(device)
+    lm_head = tok_emb  # weight tying
+    blocks = ckpt["blocks"]
+    for b in blocks:
+        for k in ("wq","wk","wv","wo"):
+            b["attn"][k] = b["attn"][k].to(device)
+        for k in ("w_up","w_gate","w_down"):
+            b["ffn"][k] = b["ffn"][k].to(device)
+
+    d_model = blocks[0]["attn"]["d_model"]
+    n_heads = blocks[0]["attn"]["n_heads"]
+    n_kv    = blocks[0]["attn"]["n_kv"]
+    d_k     = blocks[0]["attn"]["d_k"]
+    n_layers= len(blocks)
+    d_ff    = blocks[0]["ffn"]["w_up"].shape[0]
+    vocab   = tok_emb.shape[0]
+
+    cfg = {
+        "d_model": d_model, "n_heads": n_heads, "n_kv": n_kv,
+        "d_k": d_k, "n_layers": n_layers, "d_ff": d_ff,
+        "vocab": vocab, "seq_len": max_seq_len
+    }
+    cos, sin = rotary_emb(d_model//n_heads, max_seq_len)
+    cos, sin = cos.to(device), sin.to(device)
+    return (tok_emb, blocks, lm_head, cos, sin), cfg
