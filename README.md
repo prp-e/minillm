@@ -44,6 +44,18 @@ After training done, you will find out a few `.pt` files in the path, it is wher
 
 ### Run inference scripts
 
+In order to run the inference on the model you have created, you may need to use `inference.py` and this script comes with a few flags and options. 
+
+- `--model-path` : It is path to the model file. 
+- `--prompt` : It is the text to be completed. 
+- `--tokenizer` : It is your desired tokenizer. Since the training script is currently using SmolLM 135m tokenizer, the same goes for the inference as well. It may change in the future. 
+- `--max_new_tokens` : This flag helps you generate the maximum tokens possible. Since in the current training it has been set to 512, the maximum is 512. If you change it while doing the training process, this can be tweaked. 
+- `--temperature` : This flag is deciding for the creativity of the model. Setting it to 0 is more likely to output the data used in training. 
+- `--top_p` :  When you set this, it just looks for everything with that probability. 
+- `--top_k` : This also checks for the nearest neighbors of your input. 
+- `--seed` : Decides for the randomness of the model. 
+- `--max_seq_length` : It decides how many tokens can be taken as an input.
+
 ## Parameter calculator guide 
 
 * `d_model` : Embedding size, or in a better word, the dimensions of each token.
