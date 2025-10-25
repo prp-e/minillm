@@ -16,6 +16,8 @@
 
 ### Run training scripts
 
+### Run inference scripts
+
 ## Parameter calculator guide 
 
 * `d_model` : Embedding size, or in a better word, the dimensions of each token.
