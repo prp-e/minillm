@@ -134,3 +134,31 @@ def generate_text(state, cfg, tokenizer, prompt, max_new_tokens=100, temperature
             if eos_token_id is not None and next_token.item() == eos_token_id:
                 break
     return tokenizer.decode(generated[0], skip_special_tokens=True)
+
+def main():
+    """Example CLI entrypoint for quick inference."""
+    import argparse
+    p = argparse.ArgumentParser()
+    p.add_argument("--model_path", type=str, default="best_model.pt")
+    p.add_argument("--tokenizer", type=str, default="HuggingFaceTB/SmolLM-135M")
+    p.add_argument("--prompt", type=str, required=True)
+    p.add_argument("--max_new_tokens", type=int, default=100)
+    p.add_argument("--temperature", type=float, default=0.8)
+    p.add_argument("--top_k", type=int, default=50)
+    p.add_argument("--top_p", type=float, default=0.9)
+    p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--max_seq_len", type=int, default=512)
+    args = p.parse_args()
+
+    set_seed(args.seed)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    state, cfg = load_trained_state(args.model_path, device, max_seq_len=args.max_seq_len)
+    tok = AutoTokenizer.from_pretrained(args.tokenizer)
+    if tok.pad_token is None: tok.pad_token = tok.eos_token
+    text = generate_text(
+        state, cfg, tok, args.prompt,
+        max_new_tokens=args.max_new_tokens,
+        temperature=args.temperature, top_k=args.top_k, top_p=args.top_p,
+        eos_token_id=tok.eos_token_id
+    )
+    print(text)
