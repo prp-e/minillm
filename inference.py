@@ -100,3 +100,37 @@ def load_trained_state(model_path, device, max_seq_len=512):
     cos, sin = rotary_emb(d_model//n_heads, max_seq_len)
     cos, sin = cos.to(device), sin.to(device)
     return (tok_emb, blocks, lm_head, cos, sin), cfg
+
+def generate_text(state, cfg, tokenizer, prompt, max_new_tokens=100, temperature=0.8, top_k=50, top_p=0.9, eos_token_id=None):
+    """Autoregressive text generation (top-k/top-p/temperature)."""
+    tok_emb, blocks, lm_head, cos, sin = state
+    device = tok_emb.device
+    input_ids = tokenizer.encode(prompt, add_special_tokens=False, return_tensors="pt").to(device)
+    generated = input_ids.clone()
+    with torch.inference_mode():
+        for _ in range(max_new_tokens):
+            logits = forward_model(generated, tok_emb, blocks, lm_head, cos, sin, cfg)
+            next_logits = logits[0, -1, :] / max(temperature, 1e-5)
+
+            if top_k and top_k > 0:
+                vk, ik = torch.topk(next_logits, top_k)
+                mask = torch.full_like(next_logits, float("-inf"))
+                mask[ik] = vk
+                next_logits = mask
+
+            if top_p and top_p < 1.0:
+                sorted_logits, sorted_idx = torch.sort(next_logits, descending=True)
+                probs = F.softmax(sorted_logits, dim=-1)
+                cumsum = torch.cumsum(probs, dim=-1)
+                cutoff = cumsum > top_p
+                cutoff[1:] = cutoff[:-1].clone()
+                cutoff[0] = False
+                next_logits[sorted_idx[cutoff]] = float("-inf")
+
+            probs = F.softmax(next_logits, dim=-1)
+            next_token = torch.multinomial(probs, num_samples=1).unsqueeze(0)  # [1,1]
+            generated = torch.cat([generated, next_token], dim=1)
+
+            if eos_token_id is not None and next_token.item() == eos_token_id:
+                break
+    return tokenizer.decode(generated[0], skip_special_tokens=True)
