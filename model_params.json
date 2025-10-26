@@ -7,11 +7,11 @@
         "batch":24, 
         "seq_len":2048, 
         "dropout":0.1,
-        "num_docs":2000, 
+        "num_docs":50000, 
         "max_tokens":500000,
-        "lr":0.01, 
-        "steps":2000, 
-        "eval_steps":100, 
-        "eval_every":500,
+        "lr":0.05, 
+        "steps":25000, 
+        "eval_steps":1000, 
+        "eval_every":5000,
         "seed":42
 }
