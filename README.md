@@ -14,6 +14,10 @@ You also can take a look at the [HuggingFace organization](https://hf.co/minillm
 
 - [miniLLM-360m (5000 steps)](https://huggingface.co/minillm-society/minillm-360m/resolve/main/minillm-360m-5000steps.pt?download=true)
 
+## Release notes
+
+Since adding all the notes to this README.md makes it unnecessarily long, we've added [CHANGES.md](CHANGES.md) file and all change logs and release notes will be added there.
+
 ## How to run
 
 ### Prerequisites (For training)
