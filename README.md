@@ -18,6 +18,10 @@ You also can take a look at the [HuggingFace organization](https://hf.co/minillm
 
 Since adding all the notes to this README.md makes it unnecessarily long, we've added [CHANGES.md](CHANGES.md) file and all change logs and release notes will be added there.
 
+## How to contribute
+
+We have a [contribution guide](CONTRIBUTING.md) that you can study. If you want to contribute to the project you _must_ read that file first. 
+
 ## How to run
 
 ### Prerequisites (For training)
