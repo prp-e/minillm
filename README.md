@@ -8,6 +8,8 @@ This SLM (or Small Language Model) has been inspired by [Karpathy's Video on GPT
 
 This project has been started by [Muhammadreza Haghiri](https://haghiri75.com/en)(and active on X with the handle [@haghiri_ai](https://x.com/haghiri_ai)) who's the founder of [Mann-E](https://mann-e.com) which was the first generative AI platform with pretrained/fine-tuned models in the country of Iran. This model is an effort from Mann-E in order to have a more accessible and democratized AI for everyone. 
 
+## Download checkpoints
+
 ## How to run
 
 ### Prerequisites (For training)
