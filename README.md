@@ -1,7 +1,7 @@
 # MiniLLM : An implementation of Qwen3-like small language model
 
 <p align="center">
-    <img src="logo.png">
+    <img src="logo.png" width="512px" height="512px" />
 </p>
 
 ## How to run
