@@ -14,4 +14,10 @@ _WARNING_: No matter how perfect is you contribution, if it's not following the 
 
 ## Rules
 
+- DO NOT change the whole code base. Just the parts needed. The codebase is working and has its own integrity. 
+- DO NOT push codes which are not tested. You always can use [Google Colab](https://colab.research.google.com)'s free tier to test the code. If you own a good GPU (like a 2080 Ti) you're probably able to test the code on a local machine. 
+- DO NOT spam PR, like adding your name into `README.md` file (Yes, I know those _code gurus_ are encouraging this, but it's just pointless spam).
+- Every _pull request_ or _issue_ must be in English only. If you can't speak English, then use an online translator or AI to translate your message to English. 
+- The rules may change at anytime. Keep your forks or clones updated with this repo's _main_ branch in order to stay up to date with the rules. 
+
 ## AI generated code
