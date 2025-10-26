@@ -11,3 +11,15 @@ This project has been started by [Muhammadreza Haghiri](https://haghiri75.com/en
 ## How to run the model, contribute, etc
 
 In order to run the model, contribute to the development of the model and find out more about the pretraining process, take a look at [model's github page](https://github.com/prp-e/minillm). All scripts and prerequisites are provided in the github repository.
+
+## Support The Project
+
+You can support this project by donations. Donations are currently accepted in form of crypto and these are wallets:
+
+- Solana: `GNJWgRmgRd7S9VrhCcJnVNTtAiQGTWrya9gcGb985x2m`
+- Ethereum: `0xa2dd3D50DE0Fc12fAd946606cd853B2a972d8de8`
+- Sui: `0x943c1190bae9a052879c1861833621e20545bc33a8c990d48cc3bb8e7b1ac00b`
+- Polygon: `0xa2dd3D50DE0Fc12fAd946606cd853B2a972d8de8`
+- Base: `0xa2dd3D50DE0Fc12fAd946606cd853B2a972d8de8`
+- Bitcoin (Taproot): `bc1pgtgd3uymvdxycelu06zz3sgrt47rccw2zk9u550e4de6tzgngz2s738gsn`
+- Bitcoin (Native Segwit): `bc1q85drn275ugetvleha6egp7a8u0ramyf39zg4wj`
