@@ -12,7 +12,7 @@ You also can take a look at the [HuggingFace organization](https://hf.co/minillm
 
 ## Download checkpoints
 
-- [miniLLM-360m (5000 steps)]()
+- [miniLLM-360m (5000 steps)](https://huggingface.co/minillm-society/minillm-360m/resolve/main/minillm-360m-5000steps.pt?download=true)
 
 ## How to run
 
