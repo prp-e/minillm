@@ -7,7 +7,7 @@
         "batch":32, 
         "seq_len":2048, 
         "dropout":0.1,
-        "num_docs":20000, 
+        "num_docs":5000, 
         "max_tokens":500000,
         "lr":0.05, 
         "steps":25000, 
