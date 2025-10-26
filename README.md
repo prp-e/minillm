@@ -1,5 +1,9 @@
 # MiniLLM : An implementation of Qwen3-like small language model
 
+<p align="center">
+    <img src="logo.png">
+</p>
+
 ## How to run
 
 ### Prerequisites (For training)
