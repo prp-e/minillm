@@ -5,7 +5,7 @@
         "n_layers":6, 
         "d_ff":1536,
         "batch":24, 
-        "seq_len":512, 
+        "seq_len":2048, 
         "dropout":0.1,
         "num_docs":2000, 
         "max_tokens":500000,
