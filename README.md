@@ -8,6 +8,8 @@ This SLM (or Small Language Model) has been inspired by [Karpathy's Video on GPT
 
 This project has been started by [Muhammadreza Haghiri](https://haghiri75.com/en)(and active on X with the handle [@haghiri_ai](https://x.com/haghiri_ai)) who's the founder of [Mann-E](https://mann-e.com) which was the first generative AI platform with pretrained/fine-tuned models in the country of Iran. This model is an effort from Mann-E in order to have a more accessible and democratized AI for everyone. 
 
+You also can take a look at the [HuggingFace organization](https://hf.co/minillm-society) for accessing checkpoints and downloading them.
+
 ## Download checkpoints
 
 - [miniLLM-360m (5000 steps)]()
@@ -58,7 +60,7 @@ __NOTE__: The current model is made to support English language and things may c
 
 ### Run inference scripts
 
-In order to run the inference on the model you have created, you may need to use `inference.py` and this script comes with a few flags and options. 
+In order to run the inference on the model you have created, you may need to use `inference.py` and this script comes with a few flags and options. Additionally, you can download the model from huggingface.
 
 - `--model-path` : It is path to the model file. 
 - `--prompt` : It is the text to be completed. 
