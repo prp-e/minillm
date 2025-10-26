@@ -15,7 +15,7 @@ def calculate_params(d_model, n_heads, n_layers, d_ff, vocab=5000):
     
     return total_params
 
-cfg = load_model_cfg("model_params.json")
+cfg = load_model_cfg("model_params_180m.json")
 
 d_model = cfg["d_model"]
 n_heads = cfg["n_heads"]
