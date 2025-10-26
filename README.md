@@ -10,6 +10,8 @@ This project has been started by [Muhammadreza Haghiri](https://haghiri75.com/en
 
 ## Download checkpoints
 
+- [miniLLM-360m (5000 steps)]()
+
 ## How to run
 
 ### Prerequisites (For training)
