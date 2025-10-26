@@ -21,3 +21,5 @@ _WARNING_: No matter how perfect is you contribution, if it's not following the 
 - The rules may change at anytime. Keep your forks or clones updated with this repo's _main_ branch in order to stay up to date with the rules. 
 
 ## AI generated code
+
+The use of AI generated code is not prohibited but also is encouraged as long as it doesn't violate our contribution rules. In order to generate a cleaner codebase and troubleshooting errors or bugs, we've just ran our code through OpenAI's GPT-5 Codex. So you're allowed to use AI generated code as long as you have tested it and it doesn't mess with the working parts of the code. 
