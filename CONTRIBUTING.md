@@ -7,3 +7,5 @@ _WARNING_: No matter how perfect is you contribution, if it's not following the 
 ## Guideline
 
 ## Rules
+
+## AI generated code
