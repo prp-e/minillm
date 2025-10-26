@@ -1,8 +1,8 @@
 {
         "d_model":1024, 
-        "n_heads":24, 
+        "n_heads":16, 
         "n_kv":4, 
-        "n_layers":24, 
+        "n_layers":32, 
         "d_ff":1536,
         "batch":32, 
         "seq_len":2048, 
