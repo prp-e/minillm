@@ -79,6 +79,7 @@ __NOTE__: All of the flags except "prompt" got their default value. You may chan
 - [ ] Upload the model to huggingface.
 - [ ] Provide fine tuning script for _instruction following_
 - [ ] Making models _transformer compatible_ in order to be used in huggingface transformers pipelines.
+- [ ] Making the train script work on multiple GPUs (it will make training of the bigger models possible)
 
 ## Support The Project
 
