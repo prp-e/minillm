@@ -68,7 +68,7 @@ def load_and_cache_data(num_documents, max_tokens, cache_dir="data_cache"):
     cache_file = f"{cache_dir}/tokenized_{num_documents}_{max_tokens}.pkl"
     if os.path.exists(cache_file):
         with open(cache_file,"rb") as f: return pickle.load(f)
-    tok = AutoTokenizer.from_pretrained("HuggingFaceTB/SmolLM-135M")
+    tok = AutoTokenizer.from_pretrained("unsloth/gemma-3-270m-it")
     if tok.pad_token is None: tok.pad_token = tok.eos_token
     ds = load_dataset("HuggingFaceTB/smollm-corpus","cosmopedia-v2",split="train",streaming=True)
     texts = []
