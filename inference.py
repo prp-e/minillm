@@ -139,7 +139,7 @@ def main():
     """Example CLI entrypoint for quick inference."""
     p = argparse.ArgumentParser()
     p.add_argument("--model_path", type=str, default="model-final.pt")
-    p.add_argument("--tokenizer", type=str, default="HuggingFaceTB/SmolLM-135M")
+    p.add_argument("--tokenizer", type=str, default="unsloth/gemma-3-270m-it")
     p.add_argument("--prompt", type=str, required=True)
     p.add_argument("--max_new_tokens", type=int, default=100)
     p.add_argument("--temperature", type=float, default=0.8)
